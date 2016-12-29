@@ -1,6 +1,8 @@
 # the-dark-dungeon-world-gen-test-
 a test program to test the robustness of my game "the dark dungeon"'s world generation code
 
+if you run the program, just press "R" to regenerate the world to see it generates a new one. 
+
 #procedural generation method
 
 First generate random rectangles that are apart at least 1 tile, then carve passengers by flood-filling randomly. (So far)
