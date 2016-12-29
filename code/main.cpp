@@ -70,7 +70,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow
     global_renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
     
     Tile_Map tile_map = {};
-    tile_map.init(30, 30);
+    tile_map.init(80, 80);
     
     b32 GameRunning = true;
     while (GameRunning)
@@ -102,10 +102,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow
                             {
                                 GameRunning = false;
                             }
-
+                            
                             if (KeyCode == SDLK_r)
                             {
-                                tile_map.init(30, 30);
+                                tile_map.init(80, 80);
                             }
                         }
                     }
