@@ -59,6 +59,31 @@ i32 clamp(i32 value, i32 min, i32 max)
 }
 
 #include "tile_map.h"
+
+#define TILE_SIZE 10
+void render(Tile_Map *tile_map)
+{
+    SDL_SetRenderDrawColor(global_renderer, 0x10, 0x10, 0x10, 0xff);
+    {
+        SDL_Rect fill_rect = {0, WINDOW_HEIGHT - tile_map->y_count*TILE_SIZE,
+                              tile_map->x_count*TILE_SIZE, tile_map->y_count*TILE_SIZE};
+        SDL_RenderFillRect(global_renderer, &fill_rect);
+    }
+
+    SDL_SetRenderDrawColor(global_renderer, 0, 0xff, 0, 0xff);
+    loop_for(x, tile_map->x_count)
+    {
+        loop_for(y, tile_map->y_count)
+        {
+            if (tile_map->get_tile({x, y}) != 0)
+            {
+                SDL_Rect tile_rect = {x*TILE_SIZE, WINDOW_HEIGHT - (y+1)*TILE_SIZE, TILE_SIZE, TILE_SIZE};
+                SDL_RenderFillRect(global_renderer, &tile_rect);
+            }
+        }
+    }
+}
+
 #include <windows.h>
 int CALLBACK
 WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow)
@@ -115,7 +140,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow
         
         SDL_SetRenderDrawColor(global_renderer, 0, 0, 0, 0xFF);
         SDL_RenderClear(global_renderer);
-        tile_map.render();
+        render(&tile_map);
         
         u32 tick_after_proc = SDL_GetTicks();
         
