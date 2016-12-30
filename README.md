@@ -10,3 +10,6 @@ First generate random rectangles that are apart at least 1 tile, then carve pass
 #screenshots:
 screenshot 1: (12/28/2016)
 ![image](https://cloud.githubusercontent.com/assets/16845654/21541818/605e2368-cd6e-11e6-9712-354580963dad.png)
+
+screenshot 2: (12/30/2016)
+![image](https://cloud.githubusercontent.com/assets/16845654/21572926/d393cf1a-ce93-11e6-9438-23d5a79acfec.png)
