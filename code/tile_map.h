@@ -28,9 +28,11 @@ struct Tile_Map
     b32 is_tile_valid(v2i tile_position);
     b32 is_tile_walkable(v2i tile_position);
 
+    void init(i32 x_count, i32 y_count);
+
     void unify_region_id(v2i tile_position, i32 region_id);
     void flood_fill(v2i tile_position, v2i flood_direction);
-    void init(i32 x_count, i32 y_count);
+    void uncarve(v2i tile_position);
 };
 
 void Tile_Map::init(i32 x_count, i32 y_count)
@@ -184,8 +186,61 @@ void Tile_Map::init(i32 x_count, i32 y_count)
     }
     
     //uncarving deadends
+    loop_for(x, x_count)
     {
-        
+        loop_for(y, y_count)
+        {
+            v2i tile_position = {x, y};
+            if (get_tile(tile_position) != 0)
+            {
+                i32 sides_connected = 0;
+                v2i side_offsets[] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+                for_each(i, side_offsets)
+                {
+                    if (is_tile_valid(tile_position + side_offsets[i]) &&
+                        get_tile(tile_position + side_offsets[i]) != 0)
+                    {
+                        ++sides_connected;
+                    }
+                }
+
+                if (sides_connected == 0)
+                {
+                    get_tile(tile_position) = 0;
+                }
+                else if (sides_connected == 1)
+                {
+                    uncarve(tile_position);
+                }
+            }
+        }
+    }
+}
+
+void Tile_Map::uncarve(v2i tile_position)
+{
+    if (get_tile(tile_position) == 0)
+    {
+        return;
+    }
+    
+    i32 sides_connected = 0;
+    v2i side_offsets[] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+    v2i sole_side_offset = {};
+    for_each(i, side_offsets)
+    {
+        if (is_tile_valid(tile_position + side_offsets[i]) &&
+            get_tile(tile_position + side_offsets[i]) != 0)
+        {
+            ++sides_connected;
+            sole_side_offset = side_offsets[i];
+        }
+    }
+    
+    if (sides_connected == 1)
+    {
+        get_tile(tile_position) = 0;
+        uncarve(tile_position + sole_side_offset);
     }
 }
 
